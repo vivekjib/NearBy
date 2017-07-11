@@ -14,6 +14,8 @@
   <script>
       $(document).ready(function () {
           var option1=0,option2=0,option3=0;
+          var workerLocations=new Array();
+
             var checkOptions=function () {
                 var opt1,opt2,opt3;
                 if($('#inlineCheckbox1  ').is(":checked"))
@@ -33,19 +35,43 @@
                 checkOptions();
 //                console.log(option);
             }
+            var getPlace=function () {
+                if($('#city').val() != '')
+                {
+                    console.log($('#city').val());
+                  return $('#city').val();
+                }
+                else
+                    return "nagpur";
+            }
             var callUserResponse=function (option1,option2,option3) {
                 $.ajax({
                     type:'GET',
-                    url:'UserResponse.php?opt1='+option1+'&opt2='+option2+'&opt3='+option3+"&city="+'nagpur',
+                    url:'UserResponse.php?opt1='+option1+'&opt2='+option2+'&opt3='+option3+"&city="+getPlace(),
                     success:function (data) {
-                        console.log(data);
+                        try{
+                            var info = JSON.parse(data);
+//                        console.log(info);
+                            for(var i=0;i<info.length;i++)
+                            {
+                                var position=new Object();
+                                position.lat=info[i][0].lat;
+                                position.lng=info[i][0].lng;
+
+                            }
+                        }
+                        catch (err)
+                        {
+                                alert("Wrong City Entered<br>Please Enter a valid city");
+//                            console.log('Wrong City Entered');
+                        }
                     },
                     error:function (data) {
                         console.log('Error Occured');
                     }
                 });
             }
-            onStart();
+
             $('#inlineCheckbox1').click(function () {
                 checkOptions();
 //                console.log(option);
@@ -61,6 +87,8 @@
 //                  console.log(option);
                   callUserResponse(option1,option2,option3);
               });
+          ///CAll to onstart function just after document is ready
+          onStart();
       });
   </script>
 </head>
@@ -136,7 +164,7 @@
             <div class="col-md-6">
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <input type="text" class="form-control input-lg" placeholder="Search your location to get result.." />
+                        <input type="text" class="form-control input-lg" placeholder="Search your location to get result.." id="city"/>
                         <span class="input-group-btn">
                             <button class="btn btn-info btn-lg" type="button">
                                 <i class="glyphicon glyphicon-search"></i>
