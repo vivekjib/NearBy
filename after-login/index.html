@@ -36,7 +36,7 @@
             var callUserResponse=function (option1,option2,option3) {
                 $.ajax({
                     type:'GET',
-                    url:'UserResponse.php?opt1='+option1+'&opt2='+option2+'&opt3='+option3,
+                    url:'UserResponse.php?opt1='+option1+'&opt2='+option2+'&opt3='+option3+"&city="+'nagpur',
                     success:function (data) {
                         console.log(data);
                     },

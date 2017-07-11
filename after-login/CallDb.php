@@ -6,15 +6,15 @@
         private static $dbname = "nearby";
 
 
-        public static function fetchLocations($worker_type)
+        public static function fetchLocations($worker_type,$city)
         {
 // Create connection
-            $conn = new mysql(self::$servername, self::$username, self::$password, self::$dbname);
+            $conn = new mysqli(self::$servername, self::$username, self::$password, self::$dbname);
 // Check connection
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            $sql = "SELECT * FROM markers WHERE type=".$worker_type;
+            $sql = "SELECT * FROM markers WHERE worker_type='$worker_type' AND city='$city'";
             $result = $conn->query($sql);
             $data=[];
             if ($result->num_rows > 0) {
