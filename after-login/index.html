@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" class="gr__getbootstrap_com"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
     <title>NearBy | Logged In</title>
 
     <link rel="icon" href="../images/favicon.ico">
@@ -16,16 +10,57 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="../Carousel Template for Bootstrap_files/ie-emulation-modes-warning.js"></script>
 
-  <style>
-    @media print {#ghostery-purple-box {display:none !important}}
-  </style>
+
   <script>
       $(document).ready(function () {
-          $("#to-top").click(function(e) {
-              e.preventDefault();
-              //var aid = $(this).attr("href");
-              $('html,body').animate({scrollTop: $("#top_anchor").offset().top},'slow');
-          });
+          var option1=0,option2=0,option3=0;
+            var checkOptions=function () {
+                var opt1,opt2,opt3;
+                if($('#inlineCheckbox1  ').is(":checked"))
+                    option1='1';
+                else
+                    option1='0';
+                if($('#inlineCheckbox2').is(":checked"))
+                    option2='1';
+                else
+                    option2='0';
+                if($('#inlineCheckbox3').is(":checked"))
+                    option3='1';
+                else
+                    option3='0';
+            }
+            var onStart=function () {
+                checkOptions();
+//                console.log(option);
+            }
+            var callUserResponse=function (option1,option2,option3) {
+                $.ajax({
+                    type:'GET',
+                    url:'UserResponse.php?opt1='+option1+'&opt2='+option2+'&opt3='+option3,
+                    success:function (data) {
+                        console.log(data);
+                    },
+                    error:function (data) {
+                        console.log('Error Occured');
+                    }
+                });
+            }
+            onStart();
+            $('#inlineCheckbox1').click(function () {
+                checkOptions();
+//                console.log(option);
+                callUserResponse(option1,option2,option3);
+            });
+              $('#inlineCheckbox2').click(function () {
+                  checkOptions();
+//                  console.log(option);
+                  callUserResponse(option1,option2,option3);
+              });
+              $('#inlineCheckbox3').click(function () {
+                  checkOptions();
+//                  console.log(option);
+                  callUserResponse(option1,option2,option3);
+              });
       });
   </script>
 </head>
@@ -38,22 +73,16 @@
         <nav class="navbar navbar-inverse navbar-static-top">
           <div class="container">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
               <a class="navbar-brand" href="index.html">
                 <b>NearBy</b>
               </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="index.html"><b>Home</b></a></li>
-                <li><a href="#about"><b>About</b></a></li>
-                <li><a href="#contact"><b>Contact</b></a></li>
-              </ul>
+              <!--<ul class="nav navbar-nav">-->
+                <!--<li class="active"><a href="index.html"><b>Home</b></a></li>-->
+                <!--<li><a href="#about"><b>About</b></a></li>-->
+                <!--<li><a href="#contact"><b>Contact</b></a></li>-->
+              <!--</ul>-->
               <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -120,15 +149,15 @@
       
 
             <div class="checkbox checkbox-inline checkbox-success">
-                <input type="checkbox" id="inlineCheckbox1" value="option1" checked="">
+                <input type="checkbox" id="inlineCheckbox1" class="option" value="carpainter">
                 <label for="inlineCheckbox1"> Carpenter </label>
             </div>
             <div class="checkbox checkbox-success checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox2" value="option1" >
+                <input type="checkbox" id="inlineCheckbox2" class="option" value="plumber">
                 <label for="inlineCheckbox2"> Plumber </label>
             </div>
             <div class="checkbox checkbox-inline checkbox-success">
-                <input type="checkbox" id="inlineCheckbox3" value="option1">
+                <input type="checkbox" id="inlineCheckbox3" class="option" value="washerman">
                 <label for="inlineCheckbox3"> Washerman </label>
             </div>
         </div>
@@ -139,24 +168,7 @@
         </div>
       </div>
     </div>
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
 
-    
-      <!-- FOOTER -->
-   <!--  <div >
-      <footer>
-        <p class="pull-right"><a href="" id="to-top">Back to top</a></p>
-        <p>© 2017 Company, Inc.</p>
-      </footer>
-
-    </div> --><!-- /.container -->
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="../Carousel Template for Bootstrap_files/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="../Carousel Template for Bootstrap_files/bootstrap.min.js"></script>
