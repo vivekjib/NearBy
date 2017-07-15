@@ -7,14 +7,44 @@
     <link href="../Carousel Template for Bootstrap_files/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="../Carousel Template for Bootstrap_files/carousel.css" rel="stylesheet">
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCMHP6kF10yjmlZe8TR6-U7990hQIm72L4" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="../Carousel Template for Bootstrap_files/ie-emulation-modes-warning.js"></script>
+    <style>
+        body{
+            background-color: #ededed;
+        }
+        #map-canvas, #side-bar {
+            height: 450px;
+            width: 1100px;
+            border:1px solid #333;
+        }
+        pre {
+            border:1px solid #D6E0F5;
+            padding:5px;
+            margin:5px;
+            background:#EBF0FA;
+        }
 
+        /* fix for unwanted scroll bar in InfoWindow */
+        .scrollFix {
+            line-height: 1.35;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
 
   <script>
+      var workerLocations=new Array();
       $(document).ready(function () {
+          ///Disabling Scrolling the Page
+          $('html, body').css({
+              overflow: 'hidden',
+              height: '100%'
+          });
+          //
           var option1=0,option2=0,option3=0;
-          var workerLocations=new Array();
+
 
             var checkOptions=function () {
                 var opt1,opt2,opt3;
@@ -55,13 +85,19 @@
                             for(var i=0;i<info.length;i++)
                             {
                                 var position=new Object();
+                                position.name=info[i][0].worker_name;
+                                position.type=info[i][0].worker_type;
+                                position.address=info[i][0].address;
                                 position.lat=info[i][0].lat;
                                 position.lng=info[i][0].lng;
                                 workerLocations.push(position);
                             }
 //                          console.log(workerLocations);
 //                          Clearing Array after the work is done
+                            console.log(workerLocations);
+                            placeMarkers();
                             workerLocations=[];
+
                         }
                         catch (err)
                         {
@@ -94,6 +130,122 @@
           onStart();
       });
   </script>
+    <script type="text/javascript">
+
+        "use strict";
+
+        // variable to hold a map
+        var map;
+
+        // variable to hold current active InfoWindow
+        var activeInfoWindow ;
+
+        // ------------------------------------------------------------------------------- //
+        // initialize function
+        // ------------------------------------------------------------------------------- //
+        function initialize() {
+
+            placeMarkers();
+        }
+        function placeMarkers() {
+            // map options - lots of options available here
+            var mapOptions = {
+                zoom : 7,
+                draggable: true,
+                center : new google.maps.LatLng(21.14528, 79.0671),
+                mapTypeId : google.maps.MapTypeId.ROADMAP
+            };
+
+            // create map in div called map-canvas using map options defined above
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+            // define three Google Map LatLng objects representing geographic points
+            // place markers
+            for(var i=0;i<workerLocations.length;i++)
+            {
+                var lanlng= new google.maps.LatLng(workerLocations[i].lat , workerLocations[i].lng);
+                fnPlaceMarkers(lanlng,'Marker'+i);
+            }
+        }
+        // ------------------------------------------------------------------------------- //
+        // create markers on the map
+        // ------------------------------------------------------------------------------- //
+        function fnPlaceMarkers(myLocation,myCityName){
+
+            var marker = new google.maps.Marker({
+                position : myLocation
+//                icon    :   'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'
+            });
+
+            // Renders the marker on the specified map
+            marker.setMap(map);
+
+            // create an InfoWindow - for mouseover
+            var infoWnd = new google.maps.InfoWindow();
+
+            // create an InfoWindow -  for mouseclick
+            var infoWnd2 = new google.maps.InfoWindow();
+
+            // -----------------------
+            // ON MOUSEOVER
+            // -----------------------
+
+            // add content to your InfoWindow
+            infoWnd.setContent('<div class="scrollFix"><b>' + 'Information:</b><br>' +  myCityName + '</div>');
+
+            // add listener on InfoWindow for mouseover event
+            google.maps.event.addListener(marker, 'mouseover', function() {
+
+                // Close active window if exists - [one might expect this to be default behaviour no?]
+                if(activeInfoWindow != null) activeInfoWindow.close();
+
+                // Close info Window on mouseclick if already opened
+                infoWnd2.close();
+
+                // Open new InfoWindow for mouseover event
+                infoWnd.open(map, marker);
+
+                // Store new open InfoWindow in global variable
+                activeInfoWindow = infoWnd;
+            });
+
+            // on mouseout (moved mouse off marker) make infoWindow disappear
+            google.maps.event.addListener(marker, 'mouseout', function() {
+                infoWnd.close();
+            });
+
+            // --------------------------------
+            // ON MARKER CLICK - (Mouse click)
+            // --------------------------------
+
+            // add content to InfoWindow for click event
+            infoWnd2.setContent('<div class="scrollFix">' + 'Welcome to ' +  myCityName + '. <br/>This Infowindow appears when you click on marker</div>');
+
+            // add listener on InfoWindow for click event
+            google.maps.event.addListener(marker, 'click', function() {
+
+                //Close active window if exists - [one might expect this to be default behaviour no?]
+                if(activeInfoWindow != null) activeInfoWindow.close();
+
+                // Open InfoWindow - on click
+                infoWnd2.open(map, marker);
+
+                // Close "mouseover" infoWindow
+                infoWnd.close();
+
+                // Store new open InfoWindow in global variable
+                activeInfoWindow = infoWnd2;
+            });
+
+        }
+
+        // ------------------------------------------------------------------------------- //
+        // initial load
+        // ------------------------------------------------------------------------------- //
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+
+    </script>
 </head>
 <!-- NAVBAR
 ================================================== -->
@@ -131,10 +283,10 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-8">
-                                        <p class="text-left"><strong>User name</strong></p>
-                                        <p class="text-left small">user@email.com</p>
+                                        <h3 class="text-left"><strong>User name</strong></h3>
+                                        <h5 class="text-left small">user@email.com</h5>
                                         <p class="text-left">
-                                            <a href="#" class="btn btn-primary btn-block btn-sm">Update profile</a>
+                                            <!--<a href="#" class="btn btn-primary btn-block btn-sm">Update profile</a>-->
                                         </p>
                                     </div>
                                 </div>
@@ -146,7 +298,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <p>
-                                            <a href="#" class="btn btn-danger btn-block">Log out</a>
+                                            <a href="/by" class="btn btn-danger btn-block">Log out</a>
                                         </p>
                                     </div>
                                 </div>
@@ -176,8 +328,8 @@
                     </div>
                 </div>
             </div>
-        
-      
+
+
 
             <div class="checkbox checkbox-inline checkbox-success">
                 <input type="checkbox" id="inlineCheckbox1" class="option" value="carpainter">
@@ -194,8 +346,10 @@
         </div>
 
 <!--Canvas for our map-->
-        <div class="map-responsive">
-           <div class="col-lg-12 col-md-12 col-sm-12" id="map-canvas"></div>
+        <div class="map-responsive container">
+           <center>
+               <div class="col-lg-12 col-md-12 col-sm-12" id="map-canvas"></div>
+           </center>
         </div>
       </div>
     </div>

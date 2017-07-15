@@ -5,7 +5,10 @@
         private static $password = "mysql";
         private static $dbname = "nearby";
 
-
+//        private static $servername = "localhost";
+//        private static $username = "id2221158_nearby";
+//        private static $password = "mysql";
+//        private static $dbname = "id2221158_nearby";
         public static function insertLocations($name,$type,$address,$lat,$lng)
         {   $lat=(float)$lat;
             $lng=(float)$lng;
