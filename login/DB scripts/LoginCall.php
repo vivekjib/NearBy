@@ -1,12 +1,12 @@
 <?php
-include ('LoginDbCall.php');
+include('LoginDbCall.php');
 
 $name=$_REQUEST['uname'];
 $password=$_REQUEST['pword'];
 $uname=$_REQUEST['email'];
 $option=$_REQUEST['option'];
 
-if(!empty($name) && !empty($password) && !empty($uname) && !empty($option))
+if(isset($name) && isset($password) && isset($uname) && isset($option))
 {
     if($option == 1)
     {
@@ -23,7 +23,7 @@ if(!empty($name) && !empty($password) && !empty($uname) && !empty($option))
             $_SESSION["username"] = $user_details['name'];
             $_SESSION["password"] = $user_details['email'];
 
-         echo 1;
+         echo $call_result;
         }
         else
         {
