@@ -90,6 +90,7 @@
                                 position.address=info[i][0].address;
                                 position.lat=info[i][0].lat;
                                 position.lng=info[i][0].lng;
+                                position.contact=info[i][0].mobile;
                                 workerLocations.push(position);
                             }
 //                          console.log(workerLocations);
@@ -164,13 +165,13 @@
             for(var i=0;i<workerLocations.length;i++)
             {
                 var lanlng= new google.maps.LatLng(workerLocations[i].lat , workerLocations[i].lng);
-                fnPlaceMarkers(lanlng,'Marker'+i);
+                fnPlaceMarkers(lanlng,workerLocations[i]);
             }
         }
         // ------------------------------------------------------------------------------- //
         // create markers on the map
         // ------------------------------------------------------------------------------- //
-        function fnPlaceMarkers(myLocation,myCityName){
+        function fnPlaceMarkers(myLocation,worker_info){
 
             var marker = new google.maps.Marker({
                 position : myLocation
@@ -191,7 +192,7 @@
             // -----------------------
 
             // add content to your InfoWindow
-            infoWnd.setContent('<div class="scrollFix"><b>' + 'Information:</b><br>' +  myCityName + '</div>');
+            infoWnd.setContent('<div class="scrollFix"><b>' + 'Worker Type :</b><br>' +  worker_info.type + '<br><small>(click for info)</small></div>');
 
             // add listener on InfoWindow for mouseover event
             google.maps.event.addListener(marker, 'mouseover', function() {
@@ -219,7 +220,12 @@
             // --------------------------------
 
             // add content to InfoWindow for click event
-            infoWnd2.setContent('<div class="scrollFix">' + 'Welcome to ' +  myCityName + '. <br/>This Infowindow appears when you click on marker</div>');
+            infoWnd2.setContent('<div class="scrollFix">' + '<b>Worker type :</b>' +worker_info.type
+                                    + ' <br/>'
+                                    + '<b>Name :</b>'+worker_info.name+'<br>'
+                                    +'<b>Address :</b>'+worker_info.address+'<br>'
+                                    +'<b>Contact :</b>'+worker_info.contact
+                                +'</div>');
 
             // add listener on InfoWindow for click event
             google.maps.event.addListener(marker, 'click', function() {
