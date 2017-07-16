@@ -38,9 +38,14 @@
       var workerLocations=new Array();
       $(document).ready(function () {
           ///Disabling Scrolling the Page
-          $('html, body').css({
-              overflow: 'hidden',
-              height: '100%'
+//          $('html, body').css({
+//              overflow: 'hidden',
+//              height: '100%'
+//          });
+          $("#to-top").click(function(e) {
+              e.preventDefault();
+              //var aid = $(this).attr("href");
+              $('html,body').animate({scrollTop: $("#top_anchor").offset().top},'slow');
           });
           //
           var option1=0,option2=0,option3=0;
@@ -281,12 +286,7 @@
               </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
-              <!--<ul class="nav navbar-nav">-->
-                <!--<li class="active"><a href="index.html"><b>Home</b></a></li>-->
-                <!--<li><a href="#about"><b>About</b></a></li>-->
-                <!--<li><a href="#contact"><b>Contact</b></a></li>-->
-              <!--</ul>-->
-              <ul class="nav navbar-nav navbar-right">
+             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-user"></span>
@@ -371,6 +371,57 @@
                <div class="col-lg-12 col-md-12 col-sm-12" id="map-canvas"></div>
            </center>
         </div>
+
+          <div class="container marketing">
+
+              <!-- columns of text below the map -->
+              <!-- START THE FEATURETTES -->
+              <a name="about"></a>
+              <div class="row featurette">
+                  <div class="col-md-7 col-md-push-5">
+                      <h2 class="featurette-heading">About us. <span class="text-muted">Working to help.</span></h2>
+                      <p class="lead">We are new aspirants in web development. We build and provide service in welfare of society. We care both sides of our site users. We help them and make a fluid transaction of work and money between workers and needies of workers.</p>
+                  </div>
+                  <div class="col-md-5 col-md-pull-7">
+                      <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="About image" src="../images/about.png" data-holder-rendered="false">
+                  </div>
+              </div>
+
+              <a name="contact"></a>
+              <hr class="featurette-divider">
+
+              <div class="row featurette">
+                  <div class="col-md-7">
+                      <h2 class="featurette-heading">Contact us. <span class="text-muted">Get in touch.</span></h2>
+                      <p class="lead">We are happy to get in touch with you. Please, contact us for any queries. </p>
+                      <address>
+                          <strong>Some Company, Inc.</strong><br>
+                          007 street<br>
+                          Some City, State XXXXX<br>
+                          <abbr title = "Phone">P:</abbr> (123) 456-7890
+                      </address>
+                      <address>
+                          <strong>Full Name</strong><br>
+                          <a href = "mailto:#">mailto@somedomain.com</a>
+                      </address>
+                  </div>
+                  <div class="col-md-5">
+                      <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Contact image" src="../images/contact.png" data-holder-rendered="false">
+                  </div>
+              </div>
+
+              <hr class="featurette-divider">
+
+              <!-- /END THE FEATURETTES -->
+
+
+              <!-- FOOTER -->
+              <footer>
+                  <p class="pull-right"><a href="" id="to-top">Back to top</a></p>
+                  <p>© 2017 Company, Inc.</p>
+              </footer>
+
+          </div><!-- /.container -->
       </div>
     </div>
 
