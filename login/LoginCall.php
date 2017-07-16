@@ -10,7 +10,25 @@ if(!empty($name) && !empty($password) && !empty($uname) && !empty($option))
 {
     if($option == 1)
     {
-        echo LoginDbCall::checkUser($uname,$password);
+        $call=LoginDbCall::checkUser($uname,$password);
+        $call_result=$call[0];
+
+        if($call_result==1)
+        {
+            $user_details=$call[1];
+
+            // Start the session
+            session_start();
+            // Set session variables
+            $_SESSION["username"] = $user_details['name'];
+            $_SESSION["password"] = $user_details['email'];
+
+         echo 1;
+        }
+        else
+        {
+            echo 0;
+        }
     }
     else if($option == 2)
     {

@@ -103,25 +103,15 @@ include ('LoginDbCall.php');
                         if(option==1)
                         {
                             alert('Wrong Details Entered');
-                            //$('#login-status').html('<p>Wrong username or password</p>')
                         }
                         else
                         {
                             alert('Email Already Registered');
-//                            $('#register-status').html('<p>Email Already Registered</p>');
                         }
                     }
                 },
                 error:function (data) {
-//                    if(option==1)
-//                    {
                         alert('Error in Connection');
-//                        $('#login-status').html('<p>Error in Connection</p>')
-//                    }
-//                    else
-//                    {
-////                        $('#register-status').html('<p>Error in Connection</p>');
-//                    }
                 }
 
             });

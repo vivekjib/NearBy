@@ -45,7 +45,8 @@ class LoginDbCall{
         $data=[];
         if ($result->num_rows > 0) {
             // output data of each row
-            return 1;
+            $first_result_rows=$result->fetch_assoc();
+            return [1,$first_result_rows];
         } else {
             return 0;
         }
