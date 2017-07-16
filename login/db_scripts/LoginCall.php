@@ -1,8 +1,8 @@
 <?php
 include('LoginDbCall.php');
 
-$name=$_REQUEST['uname'];
-$password=$_REQUEST['pword'];
+$name=$_REQUEST['name'];
+$password=$_REQUEST['password'];
 $uname=$_REQUEST['email'];
 $option=$_REQUEST['option'];
 
