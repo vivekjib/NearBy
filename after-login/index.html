@@ -151,7 +151,7 @@
         function placeMarkers() {
             // map options - lots of options available here
             var mapOptions = {
-                zoom : 7,
+                zoom : 12,
                 draggable: true,
                 center : new google.maps.LatLng(21.14528, 79.0671),
                 mapTypeId : google.maps.MapTypeId.ROADMAP
@@ -172,10 +172,24 @@
         // create markers on the map
         // ------------------------------------------------------------------------------- //
         function fnPlaceMarkers(myLocation,worker_info){
-
+            var icn_color='';
+            if(worker_info.type == "carpenter")
+            {
+                icn_color='#32ad38';
+            }
+            else if(worker_info.type == "plumber"){
+                icn_color='#5b548e';
+            }
+            else if(worker_info.type == "washerman"){
+                icn_color='#ad4631';
+            }
             var marker = new google.maps.Marker({
-                position : myLocation
-//                icon    :   'https://maps.google.com/mapfiles/kml/shapes/parking_lot_maps.png'
+                position : myLocation,
+                icon    :  {
+                    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                    strokeColor: icn_color,
+                    scale: 3
+                }
             });
 
             // Renders the marker on the specified map
