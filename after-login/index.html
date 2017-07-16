@@ -12,7 +12,7 @@
     <script src="../Carousel Template for Bootstrap_files/ie-emulation-modes-warning.js"></script>
     <style>
         body{
-            background-color: #ededed;
+            /*background-color: #ededed;*/
         }
         #map-canvas, #side-bar {
             height: 450px;
@@ -42,12 +42,15 @@
 //              overflow: 'hidden',
 //              height: '100%'
 //          });
+
+//          Handeling the back to top button
           $("#to-top").click(function(e) {
               e.preventDefault();
               //var aid = $(this).attr("href");
               $('html,body').animate({scrollTop: $("#top_anchor").offset().top},'slow');
           });
           //
+          //For getting user's choice
           var option1=0,option2=0,option3=0;
 
 
@@ -66,19 +69,27 @@
                 else
                     option3='0';
             }
+            ///
+          //Checking functions immediately starting
             var onStart=function () {
                 checkOptions();
 //                console.log(option);
             }
+            ///
+          //Getting the city selected by user
             var getPlace=function () {
                 if($('#city').val() != '')
                 {
-//                    console.log($('#city').val());
-                  return $('#city').val();
+                    //clear the markers every time a new city is selected
+                    workerLocations=[];
+                    placeMarkers();
+                    return $('#city').val();
                 }
                 else
-                    return "nagpur";
+                    return "nagpur"; //REturn nagpur as city by default
             }
+
+            //Making ajax call to get the markers from the db
             var callUserResponse=function (option1,option2,option3) {
                 $.ajax({
                     type:'GET',
@@ -117,25 +128,32 @@
                 });
             }
 
-            $('#inlineCheckbox1').click(function () {
-                checkOptions();
-//                console.log(option);
-                callUserResponse(option1,option2,option3);
-            });
-              $('#inlineCheckbox2').click(function () {
-                  checkOptions();
-//                  console.log(option);
-                  callUserResponse(option1,option2,option3);
-              });
-              $('#inlineCheckbox3').click(function () {
-                  checkOptions();
-//                  console.log(option);
-                  callUserResponse(option1,option2,option3);
-              });
+           //Handeling the clicks on the choices
+                  $('#city').click(function () {
+                      checkOptions();
+                      callUserResponse(option1,option2,option3);
+                  });
+                  $('#inlineCheckbox1').click(function () {
+                      checkOptions();
+                      //                console.log(option);
+                      callUserResponse(option1,option2,option3);
+                  });
+                  $('#inlineCheckbox2').click(function () {
+                      checkOptions();
+                      //                  console.log(option);
+                      callUserResponse(option1,option2,option3);
+                  });
+                  $('#inlineCheckbox3').click(function () {
+                      checkOptions();
+                      //                  console.log(option);
+                      callUserResponse(option1,option2,option3);
+                  });
+          //
           ///CAll to onstart function just after document is ready
           onStart();
       });
   </script>
+    <!--Script for map api-->
     <script type="text/javascript">
 
         "use strict";
@@ -272,9 +290,19 @@
 
     </script>
 </head>
-<!-- NAVBAR
-================================================== -->
+
+
+
+
+
   <body data-gr-c-s-loaded="true">
+
+
+
+
+
+
+
     <div class="navbar-wrapper">
       <div class="container" id="top_anchor">
 
@@ -333,97 +361,106 @@
           </div>
         </nav>
       </div>
-
       <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <div id="custom-search-input">
-                    <div class="input-group col-md-12">
-                        <input type="text" class="form-control input-lg" placeholder="Search your location to get result.." id="city"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-info btn-lg" type="button">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </span>
+            <div class="col-md-12">
+                <form class="form-inline">
+                    <div class="form-group col-md-5">
+                        <label for="city">Select your city  </label>
+                        <select class="form-control" id="city">
+                            <option value="">Select a City of your choice</option>
+                            <option value="nagpur">Nagpur</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="banglore">Banglore</option>
+                            <option value="Pune">Pune</option>
+                        </select>
                     </div>
-                </div>
-            </div>
-
-
-
-            <div class="checkbox checkbox-inline checkbox-success">
-                <input type="checkbox" id="inlineCheckbox1" class="option" value="carpainter">
-                <label for="inlineCheckbox1"> Carpenter </label>
-            </div>
-            <div class="checkbox checkbox-success checkbox-inline">
-                <input type="checkbox" id="inlineCheckbox2" class="option" value="plumber">
-                <label for="inlineCheckbox2"> Plumber </label>
-            </div>
-            <div class="checkbox checkbox-inline checkbox-success">
-                <input type="checkbox" id="inlineCheckbox3" class="option" value="washerman">
-                <label for="inlineCheckbox3"> Washerman </label>
+                    <div class="form-group col-md-7 pull-right">
+                        <div class="checkbox checkbox-inline checkbox-success col-md-4">
+                            <input type="checkbox" id="inlineCheckbox1" class="option" value="carpainter">
+                            <label for="inlineCheckbox1"> Carpenter </label>
+                        </div>
+                        <div class="checkbox checkbox-success checkbox-inline col-md-4">
+                            <input type="checkbox" id="inlineCheckbox2" class="option" value="plumber">
+                            <label for="inlineCheckbox2"> Plumber </label>
+                        </div>
+                        <div class="checkbox checkbox-inline checkbox-success col-md-3">
+                            <input type="checkbox" id="inlineCheckbox3" class="option" value="washerman">
+                            <label for="inlineCheckbox3"> Washerman </label>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
-<!--Canvas for our map-->
-        <div class="map-responsive container">
-           <center>
-               <div class="col-lg-12 col-md-12 col-sm-12" id="map-canvas"></div>
-           </center>
+        <div class="container">
+            <!--Canvas for our map-->
+            <div class="map-responsive container">
+                <center>
+                    <div class="col-lg-12 col-md-12 col-sm-12" id="map-canvas"></div>
+                </center>
+            </div>
         </div>
 
-          <div class="container marketing">
+          <div class="container">
+              <div class="container marketing">
+                  <!-- columns of text below the map -->
+                  <!-- START THE FEATURETTES -->
+                  <a name="about"></a>
+                  <div class="row featurette">
+                      <div class="col-md-7 col-md-push-5">
+                          <h2 class="featurette-heading">About us. <span class="text-muted">Working to help.</span></h2>
+                          <p class="lead">We are new aspirants in web development. We build and provide service in welfare of society. We care both sides of our site users. We help them and make a fluid transaction of work and money between workers and needies of workers.</p>
+                      </div>
+                      <div class="col-md-5 col-md-pull-7">
+                          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="About image" src="../images/about.png" data-holder-rendered="false">
+                      </div>
+                  </div>
 
-              <!-- columns of text below the map -->
-              <!-- START THE FEATURETTES -->
-              <a name="about"></a>
-              <div class="row featurette">
-                  <div class="col-md-7 col-md-push-5">
-                      <h2 class="featurette-heading">About us. <span class="text-muted">Working to help.</span></h2>
-                      <p class="lead">We are new aspirants in web development. We build and provide service in welfare of society. We care both sides of our site users. We help them and make a fluid transaction of work and money between workers and needies of workers.</p>
+                  <a name="contact"></a>
+                  <hr class="featurette-divider">
+
+                  <div class="row featurette">
+                      <div class="col-md-7">
+                          <h2 class="featurette-heading">Contact us. <span class="text-muted">Get in touch.</span></h2>
+                          <p class="lead">We are happy to get in touch with you. Please, contact us for any queries. </p>
+                          <address>
+                              <strong>Some Company, Inc.</strong><br>
+                              007 street<br>
+                              Some City, State XXXXX<br>
+                              <abbr title = "Phone">P:</abbr> (123) 456-7890
+                          </address>
+                          <address>
+                              <strong>Full Name</strong><br>
+                              <a href = "mailto:#">mailto@somedomain.com</a>
+                          </address>
+                      </div>
+                      <div class="col-md-5">
+                          <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Contact image" src="../images/contact.png" data-holder-rendered="false">
+                      </div>
                   </div>
-                  <div class="col-md-5 col-md-pull-7">
-                      <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="About image" src="../images/about.png" data-holder-rendered="false">
-                  </div>
+
+                  <hr class="featurette-divider">
+
+                  <!-- /END THE FEATURETTES -->
+
+
+                  <!-- FOOTER -->
+                  <footer>
+                      <p class="pull-right"><a href="" id="to-top">Back to top</a></p>
+                      <p>© 2017 Company, Inc.</p>
+                  </footer>
+
               </div>
-
-              <a name="contact"></a>
-              <hr class="featurette-divider">
-
-              <div class="row featurette">
-                  <div class="col-md-7">
-                      <h2 class="featurette-heading">Contact us. <span class="text-muted">Get in touch.</span></h2>
-                      <p class="lead">We are happy to get in touch with you. Please, contact us for any queries. </p>
-                      <address>
-                          <strong>Some Company, Inc.</strong><br>
-                          007 street<br>
-                          Some City, State XXXXX<br>
-                          <abbr title = "Phone">P:</abbr> (123) 456-7890
-                      </address>
-                      <address>
-                          <strong>Full Name</strong><br>
-                          <a href = "mailto:#">mailto@somedomain.com</a>
-                      </address>
-                  </div>
-                  <div class="col-md-5">
-                      <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Contact image" src="../images/contact.png" data-holder-rendered="false">
-                  </div>
-              </div>
-
-              <hr class="featurette-divider">
-
-              <!-- /END THE FEATURETTES -->
-
-
-              <!-- FOOTER -->
-              <footer>
-                  <p class="pull-right"><a href="" id="to-top">Back to top</a></p>
-                  <p>© 2017 Company, Inc.</p>
-              </footer>
-
-          </div><!-- /.container -->
+          </div> <!-- /.container -->
       </div>
     </div>
+
+
+
+
+
 
     <script src="../Carousel Template for Bootstrap_files/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
