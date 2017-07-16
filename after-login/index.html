@@ -14,10 +14,8 @@
         body{
             /*background-color: #ededed;*/
         }
-        #map-canvas, #side-bar {
-            height: 450px;
-            width: 1100px;
-            border:1px solid #333;
+        #map-canvas{
+
         }
         pre {
             border:1px solid #D6E0F5;
@@ -43,6 +41,14 @@
 //              height: '100%'
 //          });
 
+            //handeling size if window everytime window is resized
+          $( window ).resize(function() {
+              var width = jQuery(window).width();
+              var height = jQuery(window).height();
+                adjustMapSize(height,width);
+          });
+
+          //
 //          Handeling the back to top button
           $("#to-top").click(function(e) {
               e.preventDefault();
@@ -56,14 +62,17 @@
 
             var checkOptions=function () {
                 var opt1,opt2,opt3;
+                //Carpenter
                 if($('#inlineCheckbox1  ').is(":checked"))
                     option1='1';
                 else
                     option1='0';
+                //plumber
                 if($('#inlineCheckbox2').is(":checked"))
                     option2='1';
                 else
                     option2='0';
+                ///washerman
                 if($('#inlineCheckbox3').is(":checked"))
                     option3='1';
                 else
@@ -72,7 +81,13 @@
             ///
           //Checking functions immediately starting
             var onStart=function () {
+                //Checking the wize of window and adjusting map size
+                var width = jQuery(window).width();
+                var height = jQuery(window).height();
+                adjustMapSize(height,width);
+                //Checking which options are selected
                 checkOptions();
+
 //                console.log(option);
             }
             ///
@@ -96,30 +111,40 @@
                     url:'UserResponse.php?opt1='+option1+'&opt2='+option2+'&opt3='+option3+"&city="+getPlace(),
                     success:function (data) {
                         try{
-                            var info = JSON.parse(data);
-//                        console.log(info);
-                            for(var i=0;i<info.length;i++)
-                            {
-                                var position=new Object();
-                                position.name=info[i][0].worker_name;
-                                position.type=info[i][0].worker_type;
-                                position.address=info[i][0].address;
-                                position.lat=info[i][0].lat;
-                                position.lng=info[i][0].lng;
-                                position.contact=info[i][0].mobile;
-                                workerLocations.push(position);
-                            }
-//                          console.log(workerLocations);
-//                          Clearing Array after the work is done
-                            console.log(workerLocations);
-                            placeMarkers();
-                            workerLocations=[];
 
+                            var info = JSON.parse(data);
+                            //no data will be found if wrong city is seleted
+                            if(info.length ==0)
+                            {
+                                workerLocations=[];
+                                placeMarkers();
+                                //since worng city was selected
+                                //selecting the default city
+                                $('#city').val('nagpur');
+                                alert("Wrong City Entered,Please Enter a valid city");
+                            }
+                            else
+                            {
+                                for(var i=0;i<info.length;i++)
+                                {
+                                    var position=new Object();
+                                    position.name=info[i][0].worker_name;
+                                    position.type=info[i][0].worker_type;
+                                    position.address=info[i][0].address;
+                                    position.lat=info[i][0].lat;
+                                    position.lng=info[i][0].lng;
+                                    position.contact=info[i][0].mobile;
+                                    workerLocations.push(position);
+                                }
+//                          Clearing Array after the work is done
+                                console.log(workerLocations);
+                                placeMarkers();
+                                workerLocations=[];
+                            }
                         }
                         catch (err)
                         {
                                 alert("Wrong City Entered,Please Enter a valid city");
-//                            console.log('Wrong City Entered');
                         }
                     },
                     error:function (data) {
@@ -152,6 +177,13 @@
           ///CAll to onstart function just after document is ready
           onStart();
       });
+      function adjustMapSize(height,width) {
+          $('#map-canvas').css({
+              'height': (height-200),
+              'width':(width-250),
+              'border':'1px solid #333'
+          });
+      }
   </script>
     <!--Script for map api-->
     <script type="text/javascript">
