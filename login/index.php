@@ -17,7 +17,7 @@ include ('db_scripts/LoginDbCall.php');
 
     <script>
         function ifWrongDetailsEntered() {
-            $('#status').removeClass('text-center text-info').addClass('text-center text-danger').empty().html('Wrong Details Entered');
+            $('#status').removeClass('text-center text-info').addClass('text-center text-danger').empty().html("<br>"+'Wrong Details Entered');
         }
     </script>
 </head>
@@ -34,17 +34,17 @@ include ('db_scripts/LoginDbCall.php');
                     <div class="login-group">
                         <div class="form-group">
                             <label for="lg_username" class="sr-only">Username</label>
-                            <input type="text" class="form-control" id="lg_username" name="uname" placeholder="username" required="required">
+                            <input type="text" class="form-control" id="lg_username" name="uname" placeholder="Registered Email" required="required">
                         </div>
                         <div class="form-group">
                             <label for="lg_password" class="sr-only">Password</label>
-                            <input type="password" class="form-control" id="lg_password" name="pword" placeholder="password" required="required">
+                            <input type="password" class="form-control" id="lg_password" name="pword" placeholder="Password" required="required">
                         </div>
                         <div class="form-group login-group-checkbox">
                             <input type="checkbox" id="lg_remember" name="lg_remember">
                             <label for="lg_remember">remember</label>
                         </div>
-                        <p class="text-center text-info" id="status">
+                        <p class="text-center text-info" id="status"><br>
                             Click the side button to login
                         </p>
                     </div>

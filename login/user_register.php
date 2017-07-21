@@ -1,3 +1,6 @@
+<?php
+include ('db_scripts/LoginDbCall.php');
+?>
 <html>
 <head>
     <!-- All the files that are required -->
@@ -11,6 +14,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <script src="files/login_js.js"></script>
+    <script>
+        function ifWrongDetailsEntered(err_message) {
+            $('#status').removeClass('text-center text-info').addClass('text-center text-danger').empty().html("<br>"+err_message);
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -19,33 +27,31 @@
         <div class="logo">register</div>
         <!-- Main Form -->
         <div class="login-form-1">
-            <form id="register-form" class="text-left">
+            <form id="register-form" class="text-left" method="post">
                 <div class="login-form-main-message"></div>
                 <div class="main-login-form">
                     <div class="login-group">
                         <div class="form-group">
                             <label for="reg_username" class="sr-only">Name</label>
-                            <input type="text" class="form-control" id="reg_username" name="reg_username" placeholder="Full Name">
+                            <input type="text" class="form-control" id="reg_username" name="reg_name" placeholder="Full Name" required="required">
                         </div>
                         <div class="form-group">
                             <label for="reg_password" class="sr-only">Password</label>
-                            <input type="password" class="form-control" id="reg_password" name="reg_password" placeholder="password">
+                            <input type="password" class="form-control" id="reg_password" name="reg_password" placeholder="password" required="required">
                         </div>
-                        <div class="form-group">
-                            <label for="reg_password_confirm" class="sr-only">Password Confirm</label>
-                            <input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" placeholder="confirm password">
-                        </div>
-
                         <div class="form-group">
                             <label for="reg_email" class="sr-only">Email</label>
-                            <input type="email" class="form-control" id="reg_email" name="reg_email" placeholder="email (xxx@example.com)">
+                            <input type="email" class="form-control" id="reg_email" name="reg_username" placeholder="email (xxx@example.com)" required="required">
                         </div>
                         <div class="form-group login-group-checkbox">
                             <input type="checkbox" class="" id="reg_agree" name="reg_agree">
                             <label for="reg_agree">i agree with <a href="#">terms</a></label>
                         </div>
+                        <p class="text-center text-info" id="status"><br>
+                            You must enter a valid Email Id
+                        </p>
                     </div>
-                    <button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
+                    <button type="submit" name="register_button" class="login-button"><i class="fa fa-chevron-right"></i></button>
                 </div>
                 <div class="etc-login-form">
                     <p>already have an account? <a href="index.php">login here</a></p>
@@ -63,5 +69,37 @@
         <!-- end:Main Form -->
     </div>
 </div>
+<?php
+if(isset($_POST['register_button']))
+{
+    if($_POST['reg_agree'])
+    {
+        $name=$_POST['reg_name'];
+        $password=$_POST['reg_password'];
+        $username=$_POST['reg_username'];
+
+        $response=LoginDbCall::insertUser($name,$password,$username);
+        if($response)
+        {
+            ?>
+        <script>alert('You have been registered as a User')</script>
+        <?php
+            header('location: ../');
+        }
+        else
+        {
+            ?>
+        <script>ifWrongDetailsEntered('This email is already registered')</script>
+            <?php
+        }
+    }
+    else
+    {
+?>
+        <script>ifWrongDetailsEntered('You must aggree to our terms and conditions')</script>
+<?php
+    }
+}
+?>
 </body>
 </html>
