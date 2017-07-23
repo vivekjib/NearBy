@@ -21,7 +21,7 @@ include ('db_scripts/LoginDbCall.php');
         }
     </script>
 </head>
-<body>
+<>
 <div class="container">
     <!-- LOGIN FORM -->
     <div class="text-center" style="padding:50px 0">
@@ -79,9 +79,14 @@ if(isset($_POST['login_button']))
     {
         $details=$response[1];
         session_start();
+        $_SESSION['name']=$details['name'];
         $_SESSION['username']=$details['email'];
         $_SESSION['password']=$details['password'];
-        header('location: ../after-login/');
+        ?>
+        <script>
+            location.replace('../after-login');
+        </script>
+        <?php
     }
     else
     {

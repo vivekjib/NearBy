@@ -17,6 +17,7 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
         <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCMHP6kF10yjmlZe8TR6-U7990hQIm72L4" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="../Carousel Template for Bootstrap_files/ie-emulation-modes-warning.js"></script>
+        <script src="../donotGoBack.js"></script>
         <style>
             body{
                 /*background-color: #ededed;*/
@@ -377,8 +378,8 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-8">
-                                                    <h3 class="text-left"><strong>User name</strong></h3>
-                                                    <h5 class="text-left small">user@email.com</h5>
+                                                    <h3 class="text-left"><strong><?php echo $_SESSION['name']; ?></strong></h3>
+                                                    <h5 class="text-left small"><?php echo $_SESSION['username']; ?></h5>
                                                     <p class="text-left">
                                                         <!--<a href="#" class="btn btn-primary btn-block btn-sm">Update profile</a>-->
                                                     </p>
