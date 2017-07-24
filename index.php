@@ -154,7 +154,12 @@
     <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
             <h2 class="featurette-heading">About us. <span class="text-muted">Working to help.</span></h2>
-            <p class="lead">We are new aspirants in web development. We build and provide service in welfare of society. We care both sides of our site users. We help them and make a fluid transaction of work and money between workers and needies of workers.</p>
+            <p class="lead">
+                We are new aspirants in web development. We build and provide service in welfare of society. We care both sides of our site users. We help them and make a fluid transaction of work and money between workers and needies of workers.
+            </p>
+            <p>
+                <h3><a href="./about-us">Our Team</a></h3>
+            </p>
         </div>
         <div class="col-md-5 col-md-pull-7">
             <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="About image" src="./images/about.png" data-holder-rendered="false">
