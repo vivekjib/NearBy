@@ -12,11 +12,12 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
         <link rel="icon" href="../images/favicon.ico">
         <link href="../Carousel Template for Bootstrap_files/bootstrap.min.css" rel="stylesheet">
         <link href="../Carousel Template for Bootstrap_files/ie10-viewport-bug-workaround.css" rel="stylesheet">
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link href="../Carousel Template for Bootstrap_files/carousel.css" rel="stylesheet">
-        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCMHP6kF10yjmlZe8TR6-U7990hQIm72L4" type="text/javascript"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMHP6kF10yjmlZe8TR6-U7990hQIm72L4" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="../Carousel Template for Bootstrap_files/ie-emulation-modes-warning.js"></script>
+        <script src="../donotGoBack.js"></script>
         <style>
             body{
                 /*background-color: #ededed;*/
@@ -145,6 +146,7 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
                                     }
 //                          Clearing Array after the work is done
                                     console.log(workerLocations);
+
                                     placeMarkers();
                                     workerLocations=[];
                                 }
@@ -189,6 +191,37 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
                 ///CAll to onstart function just after document is ready
                 onStart();
             });
+            function getCoordinates(city){
+                var selected_city=new Object();
+                selected_city.lat=21.145800;
+                selected_city.lngt=79.088155;
+                if(city ==='nagpur')
+                {
+                    selected_city.lat=21.145800;
+                    selected_city.lngt=79.088155;
+                }
+                else if(city ==='delhi')
+                {
+                    selected_city.lat=28.613939;
+                    selected_city.lngt=77.209021;
+                }
+                else if(city ==='mumbai')
+                {
+                    selected_city.lat=19.075984;
+                    selected_city.lngt=72.877656;
+                }
+                else if(city ==='banglore')
+                {
+                    selected_city.lat=12.971599;
+                    selected_city.lngt=77.594563;
+                }
+                else if(city ==='pune')
+                {
+                    selected_city.lat=18.520430;
+                    selected_city.lngt=73.856744;
+                }
+                return selected_city;
+            }
             function adjustMapSize(height,width) {
                 $('#map-canvas').css({
                     'height': (height-200),
@@ -216,11 +249,14 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
                 placeMarkers();
             }
             function placeMarkers() {
+                var city_selected=$('#city').val();
+                var city_coordinates=new Object();
+                city_coordinates=getCoordinates(city_selected);
                 // map options - lots of options available here
                 var mapOptions = {
                     zoom : 12,
                     draggable: true,
-                    center : new google.maps.LatLng(21.14528, 79.0671),
+                    center : new google.maps.LatLng(city_coordinates.lat, city_coordinates.lngt),
                     mapTypeId : google.maps.MapTypeId.ROADMAP
                 };
 
@@ -377,8 +413,8 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-8">
-                                                    <h3 class="text-left"><strong>User name</strong></h3>
-                                                    <h5 class="text-left small">user@email.com</h5>
+                                                    <h3 class="text-left"><strong><?php echo $_SESSION['name']; ?></strong></h3>
+                                                    <h5 class="text-left small"><?php echo $_SESSION['username']; ?></h5>
                                                     <p class="text-left">
                                                         <!--<a href="#" class="btn btn-primary btn-block btn-sm">Update profile</a>-->
                                                     </p>
@@ -415,12 +451,12 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
                         <div class="form-group col-md-5">
                             <label for="city">Select your city  </label>
                             <select class="form-control" id="city">
-                                <option value="">Select a City of your choice</option>
+                                <option value="nagpur">Select a City of your choice</option>
                                 <option value="nagpur">Nagpur</option>
                                 <option value="delhi">Delhi</option>
                                 <option value="mumbai">Mumbai</option>
                                 <option value="banglore">Banglore</option>
-                                <option value="Pune">Pune</option>
+                                <option value="pune">Pune</option>
                             </select>
                         </div>
                         <div class="form-group col-md-7 pull-right">
@@ -459,6 +495,9 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
                         <div class="col-md-7 col-md-push-5">
                             <h2 class="featurette-heading">About us. <span class="text-muted">Working to help.</span></h2>
                             <p class="lead">We are new aspirants in web development. We build and provide service in welfare of society. We care both sides of our site users. We help them and make a fluid transaction of work and money between workers and needies of workers.</p>
+                            <p>
+                            <h3><a href="../about-us">Our Team</a></h3>
+                            </p>
                         </div>
                         <div class="col-md-5 col-md-pull-7">
                             <img class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="About image" src="../images/about.png" data-holder-rendered="false">
