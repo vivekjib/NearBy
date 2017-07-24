@@ -12,7 +12,7 @@ if(isset($_SESSION['username']) && isset($_SESSION['password']))
         <link rel="icon" href="../images/favicon.ico">
         <link href="../Carousel Template for Bootstrap_files/bootstrap.min.css" rel="stylesheet">
         <link href="../Carousel Template for Bootstrap_files/ie10-viewport-bug-workaround.css" rel="stylesheet">
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link href="../Carousel Template for Bootstrap_files/carousel.css" rel="stylesheet">
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMHP6kF10yjmlZe8TR6-U7990hQIm72L4" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
